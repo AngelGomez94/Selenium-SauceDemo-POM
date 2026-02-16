@@ -16,7 +16,7 @@ Este repositorio contiene un framework de automatización de pruebas construido 
 * `.gitignore`: Archivos y carpetas excluidos del repositorio.
 
 ## Requisitos Técnicos
-* Python 3.x
+* Python 3.14.0
 * Selenium WebDriver
 * Pytest
 * WebDriver Manager (opcional)
