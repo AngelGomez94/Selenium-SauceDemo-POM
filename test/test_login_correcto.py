@@ -1,11 +1,16 @@
+import pytest
 from pages.pagelogin import LoginPage
+from data.data import USUARIOS_VALIDOS
 
-def test_login_exitoso(driver):
+@pytest.mark.parametrize("user, password", USUARIOS_VALIDOS)
+def test_login_exitoso(driver,user,password):
     login = LoginPage(driver)
     login.abrir_url("https://www.saucedemo.com/")
-    login.ingresar_credenciales("standard_user", "secret_sauce")
+    login.ingresar_credenciales(user, password)
 
-    assert "/inventory.html" in driver.current_url, "❌ El login falló, la URL no es la esperada."
-    print("✅ CP001: Login exitoso y verificado.")
+    assert "/inventory.html" in driver.current_url, "❌ El login falló."
+
+    url = login.logout()
+    assert url == login.link_principal, F"No se pudo realizar"
 
 
