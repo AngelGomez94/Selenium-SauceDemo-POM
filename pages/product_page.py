@@ -1,8 +1,9 @@
+import pytest
 from pages.base_page import BasePage
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.support.ui import Select
-import time
+
 class ProductPage(BasePage):
     
     txt_usuario = (By.ID, "user-name")
@@ -22,6 +23,7 @@ class ProductPage(BasePage):
     items_carrito = (By.CLASS_NAME ,"cart_item")
     btn_continue_shopping = (By.ID,"continue-shopping")
     filters_product = (By.CLASS_NAME,"product_sort_container")
+    producto_menor = (By.CSS_SELECTOR,".inventory_list .inventory_item:nth-child(1) .inventory_item_name")
     producto_z_a = (By.CSS_SELECTOR,".inventory_list .inventory_item:nth-child(1) .inventory_item_name") #first-child asegura que es el primer item de la clase
     twitter = (By.CLASS_NAME,"social_twitter")
 
@@ -75,13 +77,16 @@ class ProductPage(BasePage):
         self.wait.until(EC.url_contains("inventory.html"))
         filtro_menor_mayor = Select(self.driver.find_element(*self.filters_product))
         filtro_menor_mayor.select_by_visible_text(("Price (low to high)"))
+        self.wait.until(EC.text_to_be_present_in_element(self.producto_z_a, "Sauce Labs Onesie"))
+        return self.wait.until(EC.element_to_be_clickable(self.producto_menor)).text
+
 
     def filtro_alfabeticamente_z_a(self):
-        self.wait.until(EC.url_contains("inventory.html"))
+        
         filtro_z_a = Select(self.driver.find_element(*self.filters_product))
         filtro_z_a.select_by_visible_text(("Name (Z to A)"))
-    def obtener_item_z_a(self):
         return self.wait.until(EC.element_to_be_clickable(self.producto_z_a)).text
+  
     
     def footer_twitter(self):
         self.wait.until(EC.url_contains("inventory.html"))
