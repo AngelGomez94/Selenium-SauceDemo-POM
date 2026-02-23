@@ -26,6 +26,7 @@ Este repositorio contiene un framework de automatización de pruebas construido 
    ```bash
    git clone [https://github.com/AngelGomez94/Selenium-SauceDemo-POM]
 2. Instalar ependencias:
-   pip install selenium pytest
+   pip install selenium pytest pytest-html webdriver-manager
+
 
 Nota: Este framework sigue creciendo. Actualmente estoy añadiendo nuevos flujos de prueba y optimizando la arquitectura del código regularmente.

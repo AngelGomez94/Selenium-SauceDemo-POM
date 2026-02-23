@@ -31,33 +31,32 @@ class ProductPage(BasePage):
         super().__init__(driver)
 
     def ingresar_credenciales(self,usuario,password):
-        self.wait.until(EC.element_to_be_clickable(self.txt_usuario)).send_keys(usuario)
-
-        self.driver.find_element(*self.txt_pasword).send_keys(password)
-        self.driver.find_element(*self.btn_login).click()   
+        self.escribir(self.txt_usuario,usuario)
+        self.escribir(self.txt_pasword,password)
+        self.esperar_y_hacer_click(self.btn_login)
+          
     def agregar_productos_carrito(self):
         clicks = self.wait.until(EC.visibility_of_all_elements_located(self.btns_add_cart))
         for i in clicks:
             i.click()
     def ir_al_carrito(self):
-        click_carrito =self.wait.until(EC.element_to_be_clickable(self.cantidad_productos_carrito))
-        click_carrito.click()
+        self.esperar_y_hacer_click(self.cantidad_productos_carrito)
     def ir_a_checkout(self):
-        self.wait.until(EC.element_to_be_clickable(self.checkout)).click()
+        self.esperar_y_hacer_click(self.checkout)
     def fill_checkout(self,nombres,apellidos,cp):
         self.wait.until(EC.url_contains("checkout-step-one.html"))
-        self.driver.find_element(*self.txt_firtsname).send_keys(nombres)
-        self.driver.find_element(*self.txt_last_name).send_keys(apellidos)
-        self.driver.find_element(*self.txt_zip).send_keys(cp)
-        self.driver.find_element(*self.btn_continue).click()
+        self.escribir(self.txt_firtsname,nombres)
+        self.escribir(self.txt_last_name,apellidos)
+        self.escribir(self.txt_zip,cp)
+        self.esperar_y_hacer_click(self.btn_continue)
     def checkout_step_two(self):
         self.wait.until(EC.url_contains("checkout-step-two.html"))
         self.driver.find_element(*self.btn_finish).click()
     def checkout_message(self):
         self.wait.until(EC.url_contains("checkout-complete.html"))
-        return self.driver.find_element(*self.lbl_text).text
+        return self.obtener_texto(self.lbl_text)
     def back_home(self):
-        self.wait.until(EC.element_to_be_clickable(self.btn_back_home)).click()
+        self.esperar_y_hacer_click(self.btn_back_home)
     def main_page(self):
         return self.driver.current_url
     
@@ -71,21 +70,21 @@ class ProductPage(BasePage):
         return len(validar_items_borrados)
     
     def continue_shoping(self):
-        self.wait.until(EC.element_to_be_clickable(self.btn_continue_shopping)).click()
+        self.esperar_y_hacer_click(self.btn_continue_shopping)
     
     def filtro_menor_precio_a_mayor(self):
-        self.wait.until(EC.url_contains("inventory.html"))
-        filtro_menor_mayor = Select(self.driver.find_element(*self.filters_product))
-        filtro_menor_mayor.select_by_visible_text(("Price (low to high)"))
-        self.wait.until(EC.text_to_be_present_in_element(self.producto_z_a, "Sauce Labs Onesie"))
-        return self.wait.until(EC.element_to_be_clickable(self.producto_menor)).text
+        self.wait_url("inventory.html")
+        self.filtros(self.filters_product,"Price (low to high)")
+        
+        return self.obtener_texto(self.producto_menor)
+  
+
 
 
     def filtro_alfabeticamente_z_a(self):
         
-        filtro_z_a = Select(self.driver.find_element(*self.filters_product))
-        filtro_z_a.select_by_visible_text(("Name (Z to A)"))
-        return self.wait.until(EC.element_to_be_clickable(self.producto_z_a)).text
+        self.filtros(self.filters_product,"Name (Z to A)")
+        return self.obtener_texto(self.producto_z_a)
   
     
     def footer_twitter(self):

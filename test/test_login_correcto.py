@@ -11,6 +11,5 @@ def test_login_exitoso(driver,user,password):
     assert "/inventory.html" in driver.current_url, "❌ El login falló."
 
     url = login.logout()
-    assert url == login.link_principal, F"No se pudo realizar"
-
+    assert url == login.link_principal, F"No se pudo realizar el logout"
 

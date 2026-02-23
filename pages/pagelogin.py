@@ -19,16 +19,14 @@ class LoginPage(BasePage):
 
     def ingresar_credenciales(self, usuario, pasword):
         # 1. Esperamos a que el campo de usuario sea visible usando el wait de la mamá
-        # El * abre la "caja" (tupla) de txt_usuario
-        self.wait.until(EC.visibility_of_element_located(self.txt_usuario)).send_keys(usuario)
-        
-        # 2. Llenamos el resto y damos click
-        self.driver.find_element(*self.txt_pasword).send_keys(pasword)
-        self.driver.find_element(*self.btn_login).click()
+        self.escribir(self.txt_usuario,usuario)
+        self.escribir(self.txt_pasword,pasword)
+        self.esperar_y_hacer_click(self.btn_login)
     def obtener_mensaje_blocked_user(self):
-        return self.wait.until(EC.visibility_of_element_located(self.lbl_blocked_user)).text
+        self.obtener_texto(self.lbl_blocked_user)
     
     def logout(self):
-        self.wait.until(EC.element_to_be_clickable(self.menu_desplegable)).click()
-        self.wait.until(EC.element_to_be_clickable(self.btn_logout)).click()
+        self.esperar_y_hacer_click(self.menu_desplegable)
+        self.esperar_y_hacer_click(self.btn_logout)
+        
         return self.driver.current_url
