@@ -14,7 +14,7 @@ def test_agregar_items_carrito(driver,user,password):
     productos.checkout_step_two()
     mensaje = productos.checkout_message()
     print(mensaje)
-    assert mensaje  ==  "Thank you for your order!", f"Error, no se encontro el label de compra corrcta"
+    assert mensaje  ==  "Thank you for your order! Angel", f"Error, no se encontro el label de compra corrcta"
     productos.back_home()
     url_inicio  = productos.main_page()
     assert url_inicio in "https://www.saucedemo.com/inventory.html", f"Error: Se esperaba la página final pero estamos en {url_inicio}"
